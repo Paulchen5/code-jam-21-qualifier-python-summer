@@ -1,5 +1,5 @@
 from typing import Any, List, Optional
-
+from math import ceil, floor
 
 def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, centered: bool = False) -> str:
     """
