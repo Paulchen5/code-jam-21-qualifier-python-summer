@@ -31,16 +31,16 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     for j in max_column_length:
         for i in range(j):
             top_line += "─"
-        top_line += "─┬"
-    top_line = top_line[:-2] + "─┐\n"
+        top_line += "─┬─"
+    top_line = top_line[:-2] + "┐\n"
 
     #bot line
     bot_line = "└─"
     for j in max_column_length:
         for i in range(j):
             bot_line += "─"
-        bot_line += "─┴"
-    bot_line = bot_line[:-2] + "─┘\n"
+        bot_line += "─┴─"
+    bot_line = bot_line[:-2] + "┘\n"
     
     #table header
     table_header = ""
@@ -50,14 +50,14 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
             if not centered:
                 table_header += i + "".join(' ' for l in range(max_column_length[labels.index(i)] - len(str(i)))) + " │ "
             elif centered:
-                table_header += "".join(' ' for l in range(floor(max_column_length[labels.index(i)] - len(str(i)))/2)) + i + "".join(' ' for l in range(ceil(max_column_length[labels.index(i)] - len(str(i)))/2)) +  " │ "
+                table_header += "".join(' ' for l in range(int(floor((max_column_length[labels.index(i)] - len(str(i)))/2)))) + i + "".join(' ' for l in range(int(ceil(max_column_length[labels.index(i)] - len(str(i)))/2))) +  " │ "
         table_header += "\n"
         table_header += "├─"    
         for j in max_column_length:
             for i in range(j):
                 table_header += "─"
-            table_header += "─┼"
-        table_header = table_header[:-2] + "─┤\n"
+            table_header += "─┼─"
+        table_header = table_header[:-2] + "┤\n"
     
     #table body
     table_body = ""
@@ -65,8 +65,8 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
         for i in range(len(j)):
             if not centered:
                 table_body += "│ " + str(j[i]) + "".join(' ' for l in range(max_column_length[i] - len(str(j[i])) + 1))
-            elif centered: 
-                table_body += "".join(' ' for l in range(floor(max_column_length[labels.index(i)] - len(str(i)))/2)) + i + "".join(' ' for l in range(ceil(max_column_length[labels.index(i)] - len(str(i)))/2)) +  " │ "
+            elif centered:
+                table_body += "│ " + "".join(' ' for l in range(int(floor((max_column_length[i] - len(str(j[i])))/2)))) + str(j[i]) + "".join(' ' for l in range(int(ceil((max_column_length[i] - len(str(j[i])))/2)) + 1))
         table_body += "│\n"
     
     return top_line + table_header + table_body + bot_line
