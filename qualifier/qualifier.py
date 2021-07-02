@@ -9,13 +9,12 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     :param centered: If the items should be aligned to the center, else they are left aligned.
     :return: A table representing the rows passed in.
     """
-    #fehler: array aufbau
     
     max_column_length = []
     
     if not labels is None:
         for i in labels:
-            max_column_length.append(len(i))
+            max_column_length.append(len(str(i)))
     else:
         for i in range(len(rows[0])):
             max_column_length.append(0)
@@ -23,7 +22,7 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     for j in range(len(rows[0])):
         for i in rows:
             if len(str(i[j])) > max_column_length[j]:
-                max_column_length[j] = len(i[j])
+                max_column_length[j] = len(str(i[j]))
     
     #top and bot line creation
     #top line
@@ -50,8 +49,8 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
             if not centered:
                 table_header += i + "".join(' ' for l in range(max_column_length[labels.index(i)] - len(str(i)))) + " │ "
             elif centered:
-                table_header += "".join(' ' for l in range(int(floor((max_column_length[labels.index(i)] - len(str(i)))/2)))) + i + "".join(' ' for l in range(int(ceil(max_column_length[labels.index(i)] - len(str(i)))/2))) +  " │ "
-        table_header += "\n"
+                table_header += "".join(' ' for l in range(int(floor((max_column_length[labels.index(i)] - len(str(i)))/2)))) + str(i) + "".join(' ' for l in range(int(ceil((max_column_length[labels.index(i)] - len(str(i)))/2)))) +  " │ "
+        table_header = table_header[:-1] + "\n"
         table_header += "├─"    
         for j in max_column_length:
             for i in range(j):
@@ -70,38 +69,3 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
         table_body += "│\n"
     
     return top_line + table_header + table_body + bot_line
-
-table = make_table(
-    rows=[
-        ["Lemon"],
-        ["Sebastiaan"],
-        ["KutieKatj9"],
-        ["Jake"],
-        ["Not Joe"]
-    ]
-)
-print(table)
-
-table = make_table(
-    rows=[
-        ["Lemon", 18_3285, "Owner"],
-        ["Sebastiaan", 18_3285.1, "Owner"],
-        ["KutieKatj", 15_000, "Admin"],
-        ["Jake", "MoreThanU", "Helper"],
-        ["Joe", -12, "Idk Tbh"]
-    ],
-    labels=["User", "Messages", "Role"]
-)
-print(table)
-
-table = make_table(
-   rows=[
-       ["Ducky Yellow", 3],
-       ["Ducky Dave", 12],
-       ["Ducky Tube", 7],
-       ["Ducky Lemon", 1]
-   ],
-   labels=["Name", "Duckiness"],
-   centered=True
-)
-print(table)
