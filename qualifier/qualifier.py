@@ -10,16 +10,16 @@ def make_table(rows: List[List[Any]], labels: Optional[List[Any]] = None, center
     :return: A table representing the rows passed in.
     """
     
-    max_column_length = []
+    max_column_length = [] #list for the maximum length of a column
     
-    if not labels is None:
+    if not labels is None: #add label length to the maximum length
         for i in labels:
             max_column_length.append(len(str(i)))
-    else:
+    else: #add 0 as label length
         for i in range(len(rows[0])):
             max_column_length.append(0)
             
-    for j in range(len(rows[0])):
+    for j in range(len(rows[0])): #add the length of a row item if it is longer than the label length or another leangth of a row
         for i in rows:
             if len(str(i[j])) > max_column_length[j]:
                 max_column_length[j] = len(str(i[j]))
